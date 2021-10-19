@@ -1,7 +1,8 @@
 import React from "react";
 import "devextreme/dist/css/dx.light.css";
 
-import { TreeList, Column, Scrolling, Paging, Pager, Popup, Form, FilterRow, HeaderFilter, SearchPanel, Sorting } from "devextreme-react/tree-list";
+import { TreeList, Column, Scrolling, Paging, Pager, Popup, Form, FilterRow, HeaderFilter, SearchPanel, Sorting, Editing, Button } from "devextreme-react/tree-list";
+import { Item } from 'devextreme-react/form';
 
 
 import Switch from "devextreme-react/switch";
@@ -35,11 +36,13 @@ const TreeListComponent = () => {
 
     console.log(dataSource._store);
 
+
+
     return (
         <div>
             <TreeList
 
-                width="90%"
+                width="100%"
                 height="80vh"
                 id="treeList"
                 rootValue={-1}
@@ -50,7 +53,28 @@ const TreeListComponent = () => {
                 showBorders={true}
                 columnAutoWidth={true}
             >
+              
+              <Editing
+                    allowUpdating={true}
+                    allowDeleting={true}
+                    allowAdding={true}
+                    mode="popup">
+                    <Popup title="Add Product" showTitle={true} width={700} height={525} />
+                    <Form>
+                        <Item itemType="group" colCount={2} colSpan={2}>
+                            <Item dataField="id" />
+                            <Item dataField="ProductName" />
+                            {/* <Item>
+                                <SelectBox
+                                    dataSource={dataSource}
+                                    // valueExpr="id"
+                                    displayExpr="ProductName"
+                                />
+                            </Item> */}
 
+                        </Item>
+                    </Form>
+                </Editing>
 
                 <SearchPanel visible={true} />
                 <HeaderFilter visible={true} allowSearch={true} />
@@ -71,6 +95,11 @@ const TreeListComponent = () => {
                 <Column dataField="id" visible={false}></Column>
                 <Column dataField="ProductName" />
                 <Column dataField="Status" cellRender={switchRender}></Column>
+                <Column type="buttons">
+                    <Button icon="edit" name="edit" />
+                    <Button icon="trash" name="delete" />
+                    <Button icon="plus" name="add" />
+                </Column>
 
 
             </TreeList>
