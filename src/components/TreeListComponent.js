@@ -12,6 +12,7 @@ import DataSource from 'devextreme/data/data_source';
 
 
 const TreeListComponent = () => {
+  
 
     const allowedPageSizes = [2, 5, 10, 20];
 
@@ -32,9 +33,10 @@ const TreeListComponent = () => {
         return <Switch defaultValue={true} />;
     };
 
+ 
 
 
-    console.log(dataSource._store);
+    console.log(dataSource);
 
 
 
@@ -43,7 +45,7 @@ const TreeListComponent = () => {
             <TreeList
 
                 width="100%"
-                height="80vh"
+                height="auto"
                 id="treeList"
                 rootValue={-1}
                 dataSource={dataSource}
@@ -51,26 +53,27 @@ const TreeListComponent = () => {
                 parentIdExpr="HeadId"
                 autoExpandAll={false}
                 showBorders={true}
+                showRowLines={true}
                 columnAutoWidth={true}
+                
             >
-              
-              <Editing
+
+                <Editing
                     allowUpdating={true}
                     allowDeleting={true}
                     allowAdding={true}
                     mode="popup">
-                    <Popup title="Add Product" showTitle={true} width={700} height={525} />
+                    <Popup title="Add Product" showTitle={true} width={700} height={300} />
                     <Form>
                         <Item itemType="group" colCount={2} colSpan={2}>
                             <Item dataField="id" />
                             <Item dataField="ProductName" />
-                            {/* <Item>
-                                <SelectBox
-                                    dataSource={dataSource}
-                                    // valueExpr="id"
-                                    displayExpr="ProductName"
+                            <Item dataField="status">
+                                <Switch
+                                    defaultValue={true}
                                 />
-                            </Item> */}
+                            </Item>
+                         
 
                         </Item>
                     </Form>
@@ -78,24 +81,24 @@ const TreeListComponent = () => {
 
                 <SearchPanel visible={true} />
                 <HeaderFilter visible={true} allowSearch={true} />
-                <FilterRow visible={true} applyFilter="onClick" />
+                <FilterRow visible={true} />
                 <Sorting
                     mode="multiple" />
                 <Scrolling
                     mode="standard" />
                 <Paging
                     enabled={true}
-                    defaultPageSize={2} />
+                    defaultPageSize={7} />
                 <Pager
                     showPageSizeSelector={true}
                     allowedPageSizes={allowedPageSizes}
                     showInfo={true} />
 
 
-                <Column dataField="id" visible={false}></Column>
-                <Column dataField="ProductName" />
-                <Column dataField="Status" cellRender={switchRender}></Column>
-                <Column type="buttons">
+                <Column  dataField="id" visible={false} defaultSortOrder="asc"></Column>
+                <Column dataField="ProductName" defaultSortOrder="asc" />
+                <Column dataField="Status" cellRender={switchRender} defaultSortOrder="asc">></Column>
+                <Column defaultSortOrder="asc" type="buttons">
                     <Button icon="edit" name="edit" />
                     <Button icon="trash" name="delete" />
                     <Button icon="plus" name="add" />
