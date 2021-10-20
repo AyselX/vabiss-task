@@ -1,7 +1,7 @@
 import React from "react";
 import "devextreme/dist/css/dx.light.css";
 
-import { TreeList, Column, Scrolling, Paging, Pager, Popup, Form, FilterRow, HeaderFilter, SearchPanel, Sorting, Editing, Button } from "devextreme-react/tree-list";
+import { TreeList, Column, Scrolling, Paging, Pager, Popup, Form, FilterRow, HeaderFilter, SearchPanel, Sorting, Editing, Button, Lookup, RequiredRule } from "devextreme-react/tree-list";
 import { Item } from 'devextreme-react/form';
 
 
@@ -28,6 +28,15 @@ const TreeListComponent = () => {
         store,
 
     });
+
+    const headDataSource = {
+        store: store,
+        /* sort: 'ProductName',
+        bu filterlə child itemləri filtrləmək mümkündür ki, parentlərin parentləri kimi assign
+    olunmasın amma bunun dinamik bir yolunu tapa bilməmişəm hələ */
+
+        filter: ["HeadId", "<>", '90a87cb1-9948-1929-f72e-637c4110aae1']
+      };
     const switchRender = () => {
         console.log('dataSource', dataSource.filter());
         return <Switch defaultValue={true} />;
@@ -97,7 +106,17 @@ const TreeListComponent = () => {
 
                 <Column  dataField="id" visible={false} defaultSortOrder="asc"></Column>
                 <Column dataField="ProductName" defaultSortOrder="asc" />
-                <Column dataField="Status" cellRender={switchRender} defaultSortOrder="asc">></Column>
+
+                <Column
+                    dataField="HeadId"
+                    caption="Head">
+                    <Lookup
+                        dataSource={headDataSource}
+                        valueExpr="id"
+                        displayExpr="ProductName" />
+                    <RequiredRule />
+                </Column>
+                <Column dataField="Status" cellRender={switchRender} defaultSortOrder="asc"></Column>
                 <Column defaultSortOrder="asc" type="buttons">
                     <Button icon="edit" name="edit" />
                     <Button icon="trash" name="delete" />
